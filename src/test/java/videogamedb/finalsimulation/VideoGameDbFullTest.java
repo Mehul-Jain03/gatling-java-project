@@ -17,7 +17,7 @@ public class VideoGameDbFullTest extends Simulation {
     // RUNTIME PARAMETERS
     private static final int USER_COUNT = Integer.parseInt(System.getProperty("USERS", "5"));
     private static final int RAMP_DURATION = Integer.parseInt(System.getProperty("RAMP_DURATION", "10"));
-    private static final int TEST_DURATION = Integer.parseInt(System.getProperty("TEST_DURATION", "60"));
+    private static final int TEST_DURATION = Integer.parseInt(System.getProperty("TEST_DURATION", "20"));
 
     // FEEDER FOR TEST - CSV, JSON etc.
     private static FeederBuilder.FileBased<Object> jsonFeeder = jsonFile("data/gameJsonFile.json").random();
@@ -47,9 +47,9 @@ public class VideoGameDbFullTest extends Simulation {
     private static ChainBuilder createNewGame =
             feed(jsonFeeder)
                     .exec(http("Create New Game - #{name}")
-                                    .post("/videogame")
-                                    .header("Authorization", "Bearer #{jwtToken}")
-                                    .body(ElFileBody("bodies/newGameTemplate.json")).asJson());
+                            .post("/videogame")
+                            .header("Authorization", "Bearer #{jwtToken}")
+                            .body(ElFileBody("bodies/newGameTemplate.json")).asJson());
 
     private static ChainBuilder getLastPostedGame =
             exec(http("Get Last Posted Game - #{name}")
@@ -95,6 +95,5 @@ public class VideoGameDbFullTest extends Simulation {
     public void after() {
         System.out.println("Stress test completed");
     }
-
 
 }
